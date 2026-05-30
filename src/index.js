@@ -12,6 +12,8 @@ const rl = readline.createInterface({
 });
 
 rl.question("Ask SkyMind: ", async (input) => {
+    console.log("\n🌤 Looking at the sky...");
+
     const parsed = await parseUserInput(input);
 
     const geo = await getCoordinates(parsed.city);

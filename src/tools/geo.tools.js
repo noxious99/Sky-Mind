@@ -1,6 +1,6 @@
-const axios = require("axios");
+import axios from "axios";
 
-const getCoordinates = async ({city}) => {
+export const getCoordinates = async ({city}) => {
     const url =
         `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
 
@@ -18,5 +18,3 @@ const getCoordinates = async ({city}) => {
         lon: res.longitude
     };
 }
-
-module.exports = {getCoordinates}

@@ -1,6 +1,6 @@
-const axios = require("axios")
+import axios from "axios";
 
-const getWeather = async (lat, lon) => {
+export const getWeather = async (lat, lon) => {
     const url =
         `https://api.open-meteo.com/v1/forecast` +
         `?latitude=${lat}` +
@@ -11,5 +11,3 @@ const getWeather = async (lat, lon) => {
     const { data } = await axios.get(url);
     return data;
 }
-
-module.exports = { getWeather }

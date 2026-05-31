@@ -1,6 +1,6 @@
-const { getWeather } = require("../services/openMeteo");
+import { getWeather } from "../services/openMeteo"
 
-const getDailyWeather = async ({lat, lon}) => {
+export const getDailyWeather = async ({lat, lon}) => {
     const data = await getWeather(lat, lon);
 
     return {
@@ -8,5 +8,3 @@ const getDailyWeather = async ({lat, lon}) => {
         rain: data.daily.precipitation_probability_max[0]
     };
 }
-
-module.exports = { getDailyWeather };

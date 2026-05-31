@@ -1,4 +1,4 @@
-const getAdvice = ({temp, rainProb}) => {
+export const getAdvice = ({temp, rainProb}) => {
     if (rainProb > 70) {
         return {
             umbrella: true,
@@ -25,5 +25,3 @@ const getAdvice = ({temp, rainProb}) => {
         message: "Cool weather. Consider a light jacket."
     };
 }
-
-module.exports = { getAdvice };

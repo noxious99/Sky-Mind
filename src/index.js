@@ -1,24 +1,20 @@
-import {agentLoop} from "./agent/toolRouter.js";
-
+import { agentLoop } from "./agent/toolRouter.js";
+import { closeClient } from "./client/mcpClient.js";
 import readline from "readline";
 
-const rl = readline.createInterface({
-    input: process.stdin,
-    output: process.stdout
-});
+const rl = readline.createInterface({ input: process.stdin, output: process.stdout });
 
 rl.question("Ask SkyMind: ", async (input) => {
-
-    console.log("\n 🌤 Looking at the sky... ")
+    console.log("\n 🌤 Looking at the sky... ");
 
     try {
         const output = await agentLoop(input);
-
         console.log("\n🌤 SkyMind:\n");
         console.log(output);
     } catch (err) {
         console.log("\n  " + err.message);
     } finally {
+        await closeClient();
         rl.close();
     }
 });

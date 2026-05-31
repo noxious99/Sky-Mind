@@ -1,32 +1,30 @@
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import env from "../config/env.js";
-import { runTool } from "../client/mcpClient.js";
-import { listTools } from "../agent/toolRegistry.js"
+import { GEMINI_API_KEY } from "../config/env.js";
+import { runTool, listTools } from "../client/mcpClient.js";
 
-const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
-
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
 const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash-lite",
-    generationConfig: {
-        responseMimeType: "application/json"
-    }
+    model: "gemini-flash-latest",
+    generationConfig: { responseMimeType: "application/json" }
 });
 
 export async function agentLoop(userInput) {
+    const tools = await listTools();
+    const toolText = tools
+        .map(t => `- ${t.name}: ${t.description}\n  input schema: ${JSON.stringify(t.inputSchema)}`)
+        .join("\n");
 
     let context = userInput;
 
     for (let i = 0; i < 4; i++) {
-
         const prompt = `
 You are SkyMind agent.
 
 You can use tools:
 
-${listTools()}
+${toolText}
 
 Return JSON only:
-
 {
   "tool": "tool_name" | "final",
   "args": {},
@@ -45,16 +43,15 @@ ${context}
         }
 
         const response = JSON.parse(result.response.text());
-        console.log("\n\n Tools: ", response.tool)
+
         if (response.tool === "final") {
             return response.message;
         }
 
-        const toolResult =
-            await runTool(response.tool, response.args);
-
-        context = JSON.stringify(toolResult);
-        console.log("\n\n context: ", context)
+        // MCP results are { content: [{ type: "text", text }] } — unwrap the text
+        const toolResult = await runTool(response.tool, response.args);
+        const text = toolResult.content?.map(c => c.text).join("") ?? "";
+        context = text;
     }
 
     return "Unable to complete request.";

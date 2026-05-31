@@ -1,6 +1,7 @@
 {
   "name": "skymind",
   "version": "1.0.0",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "start": "node src/index.js",
@@ -12,7 +13,10 @@
   "description": "",
   "dependencies": {
     "@google/generative-ai": "^0.24.1",
+    "@modelcontextprotocol/sdk": "^1.29.0",
+    "and": "^0.0.3",
     "axios": "^1.16.1",
-    "dotenv": "^17.4.2"
+    "dotenv": "^17.4.2",
+    "zod": "^4.4.3"
   }
 }

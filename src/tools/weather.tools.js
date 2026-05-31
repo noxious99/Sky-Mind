@@ -1,6 +1,6 @@
 const { getWeather } = require("../services/openMeteo");
 
-const getDailyWeather = async (lat, lon) => {
+const getDailyWeather = async ({lat, lon}) => {
     const data = await getWeather(lat, lon);
 
     return {

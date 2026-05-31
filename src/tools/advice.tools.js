@@ -1,4 +1,4 @@
-const getAdvice = (temp, rainProb) => {
+const getAdvice = ({temp, rainProb}) => {
     if (rainProb > 70) {
         return {
             umbrella: true,

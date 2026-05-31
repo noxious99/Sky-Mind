@@ -1,6 +1,6 @@
 const axios = require("axios");
 
-const getCoordinates = async (city) => {
+const getCoordinates = async ({city}) => {
     const url =
         `https://geocoding-api.open-meteo.com/v1/search?name=${city}`;
 

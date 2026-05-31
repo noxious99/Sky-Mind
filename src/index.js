@@ -1,8 +1,4 @@
-const { parseUserInput } = require("./agent/parser");
-const { getCoordinates } = require("./tools/geo.tools");
-const { getDailyWeather } = require("./tools/weather.tools");
-const { getAdvice } = require("./tools/advice.tools");
-const { explain } = require("./agent/skyAgent");
+const { agentLoop } = require("../agent/toolRouter");
 
 const readline = require("readline");
 
@@ -12,23 +8,11 @@ const rl = readline.createInterface({
 });
 
 rl.question("Ask SkyMind: ", async (input) => {
-    console.log("\n🌤 Looking at the sky...");
 
-    const parsed = await parseUserInput(input);
-
-    const geo = await getCoordinates(parsed.city);
-    const weather = await getDailyWeather(geo.lat, geo.lon);
-    const advice = getAdvice(weather.temp, weather.rain);
-
-    const final = await explain(
-        input,
-        weather,
-        advice,
-        geo.city
-    );
+    const output = await agentLoop(input);
 
     console.log("\n🌤 SkyMind:\n");
-    console.log(final);
+    console.log(output);
 
     rl.close();
 });

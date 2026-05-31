@@ -1,6 +1,6 @@
 import dotenv from "dotenv"
 dotenv.config()
 
-module.exports = {
+export default {
     GEMINI_API_KEY: process.env.GEMINI_API_KEY
 };

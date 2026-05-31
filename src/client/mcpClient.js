@@ -1,7 +1,5 @@
-const { callTool } = require("../agent/toolRegistry");
+import { callTool } from "../agent/toolRegistry.js";
 
-const runTool = async (name, args) => {
+export const runTool = async (name, args) => {
     return await callTool(name, args);
 }
-
-module.exports = { runTool };

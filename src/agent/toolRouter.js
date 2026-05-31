@@ -1,7 +1,7 @@
-const { GoogleGenerativeAI } = require("@google/generative-ai");
-const env = require("../config/env");
-const { runTool } = require("../client/mcpClient");
-const { listTools } = require("../agent/toolRegistry")
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import env from "../config/env.js";
+import { runTool } from "../client/mcpClient.js";
+import { listTools } from "../agent/toolRegistry.js"
 
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
@@ -12,7 +12,7 @@ const model = genAI.getGenerativeModel({
     }
 });
 
-async function agentLoop(userInput) {
+export async function agentLoop(userInput) {
 
     let context = userInput;
 
@@ -59,5 +59,3 @@ ${context}
 
     return "Unable to complete request.";
 }
-
-module.exports = { agentLoop };

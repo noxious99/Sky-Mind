@@ -1,6 +1,6 @@
-const { agentLoop } = require("./agent/toolRouter");
+import {agentLoop} from "./agent/toolRouter.js";
 
-const readline = require("readline");
+import readline from "readline";
 
 const rl = readline.createInterface({
     input: process.stdin,

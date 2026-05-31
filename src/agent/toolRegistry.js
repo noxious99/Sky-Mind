@@ -1,4 +1,8 @@
-const callTool = (name, args) => {
+import {getCoordinates} from "../tools/geo.tools.js";
+import {getDailyWeather} from "../tools/weather.tools.js";
+import {getAdvice} from "../tools/advice.tools.js";
+
+export const callTool = (name, args) => {
 
     if (!tools[name]) {
         throw new Error("Tool not found: " + name);
@@ -6,10 +10,6 @@ const callTool = (name, args) => {
 
     return tools[name].fn(args);
 }
-
-const {getCoordinates} = require("../tools/geo.tools");
-const {getDailyWeather} = require("../tools/weather.tools");
-const {getAdvice} = require("../tools/advice.tools");
 
 const tools = {
     getCoordinates: {
@@ -26,13 +26,8 @@ const tools = {
     }
 };
 
-const listTools = () => {
+export const listTools = () => {
     return Object.entries(tools)
         .map(([name, tool]) => `- ${name}: ${tool.description}`)
         .join("\n");
 }
-
-module.exports = {
-    callTool,
-    listTools
-};

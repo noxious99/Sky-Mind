@@ -1,4 +1,4 @@
-import { getWeather } from "../services/openMeteo"
+import { getWeather } from "../services/openMeteo.js"
 
 export const getDailyWeather = async ({lat, lon}) => {
     const data = await getWeather(lat, lon);

@@ -1,29 +1,35 @@
-const tools = require("../tools");
-
 const callTool = (name, args) => {
 
     if (!tools[name]) {
         throw new Error("Tool not found: " + name);
     }
 
-    return tools[name](args);
+    return tools[name].fn(args);
 }
 
-const get_coordinates = require("../tools/geo.tool");
-const get_weather = require("../tools/weather.tool");
-const get_advice = require("../tools/advice.tool");
+const {getCoordinates} = require("../tools/geo.tools");
+const {getDailyWeather} = require("../tools/weather.tools");
+const {getAdvice} = require("../tools/advice.tools");
 
 const tools = {
-    get_coordinates,
-    get_weather,
-    get_advice
+    getCoordinates: {
+        fn: getCoordinates,
+        description: "Get latitude/longitude for a city. args: { city }"
+    },
+    getDailyWeather: {
+        fn: getDailyWeather,
+        description: "Get today's max temperature and rain probability. args: { lat, lon }"
+    },
+    getAdvice: {
+        fn: getAdvice,
+        description: "Get clothing/umbrella advice. args: { temp, rainProb }"
+    }
 };
 
 const listTools = () => {
-    return Object.keys(tools).map(name => ({
-        name,
-        description: "SkyMind tool: " + name
-    }));
+    return Object.entries(tools)
+        .map(([name, tool]) => `- ${name}: ${tool.description}`)
+        .join("\n");
 }
 
 module.exports = {

@@ -6,7 +6,7 @@ const { listTools } = require("../agent/toolRegistry")
 const genAI = new GoogleGenerativeAI(env.GEMINI_API_KEY);
 
 const model = genAI.getGenerativeModel({
-    model: "gemini-2.5-flash",
+    model: "gemini-2.5-flash-lite",
     generationConfig: {
         responseMimeType: "application/json"
     }
@@ -16,7 +16,7 @@ async function agentLoop(userInput) {
 
     let context = userInput;
 
-    for (let i = 0; i < 3; i++) {
+    for (let i = 0; i < 4; i++) {
 
         const prompt = `
 You are SkyMind agent.
@@ -37,9 +37,15 @@ User input:
 ${context}
 `;
 
-        const result = await model.generateContent(prompt);
-        const response = JSON.parse(result.response.text());
+        let result;
+        try {
+            result = await model.generateContent(prompt);
+        } catch (err) {
+            throw new Error("AI service unavailable (" + (err.status || "error") + "). Please try again later.");
+        }
 
+        const response = JSON.parse(result.response.text());
+        console.log("\n\n Tools: ", response.tool)
         if (response.tool === "final") {
             return response.message;
         }
@@ -48,6 +54,7 @@ ${context}
             await runTool(response.tool, response.args);
 
         context = JSON.stringify(toolResult);
+        console.log("\n\n context: ", context)
     }
 
     return "Unable to complete request.";

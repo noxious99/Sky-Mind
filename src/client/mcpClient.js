@@ -1,4 +1,4 @@
-const { callTool } = require("../server/mcpServer");
+const { callTool } = require("../agent/toolRegistry");
 
 const runTool = async (name, args) => {
     return await callTool(name, args);

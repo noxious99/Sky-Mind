@@ -1,4 +1,4 @@
-const { agentLoop } = require("../agent/toolRouter");
+const { agentLoop } = require("./agent/toolRouter");
 
 const readline = require("readline");
 
@@ -9,10 +9,16 @@ const rl = readline.createInterface({
 
 rl.question("Ask SkyMind: ", async (input) => {
 
-    const output = await agentLoop(input);
+    console.log("\n 🌤 Looking at the sky... ")
 
-    console.log("\n🌤 SkyMind:\n");
-    console.log(output);
+    try {
+        const output = await agentLoop(input);
 
-    rl.close();
+        console.log("\n🌤 SkyMind:\n");
+        console.log(output);
+    } catch (err) {
+        console.log("\n  " + err.message);
+    } finally {
+        rl.close();
+    }
 });
